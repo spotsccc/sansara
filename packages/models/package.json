@@ -1,0 +1,23 @@
+{
+  "name": "@repo/models",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./finance": "./src/finance/index.ts",
+    "./auth": "./src/auth/index.ts",
+    "./users": "./src/users/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.12.4",
+    "@types/eslint": "^8.56.5",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "uuid": "^10.0.0"
+  }
+}
