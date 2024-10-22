@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "prod": "npx tsx src/index.ts",
-    "build": "rollup -c",
+    "build": "tsc",
     "dev": "tsx watch src/index.ts",
     "generate-migrations": "drizzle-kit generate",
     "run-migrations": "tsx src/db/migrate.ts"
