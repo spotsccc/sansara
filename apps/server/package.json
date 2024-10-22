@@ -9,7 +9,7 @@
     "run-migrations": "tsx src/db/migrate.ts"
   },
   "engines": {
-    "node": "^20.16.0"
+    "node": "20.16.0"
   },
   "exports": {
     ".": "./src/index.ts"
