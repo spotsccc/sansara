@@ -1,6 +1,6 @@
 import { createError, isError } from "@repo/result";
-import { getAccountById } from "../repository/account/get-account-by-id";
-import { saveAccount } from "../repository/account/save-account";
+import { getAccountById } from "../repository/account/get-account-by-id.js";
+import { saveAccount } from "../repository/account/save-account.js";
 import {
   type Transaction,
   type TransactionExpense,

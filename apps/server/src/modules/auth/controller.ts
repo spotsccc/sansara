@@ -2,8 +2,8 @@ import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
 import { createError, isSuccess } from "@repo/result";
 import { loginInput, registerInput } from "@repo/contracts/auth";
-import { register } from "./services/register";
-import { login } from "./services/login";
+import { register } from "./services/register.js";
+import { login } from "./services/login.js";
 import { validator } from "hono/validator";
 
 export const authController = new Hono()

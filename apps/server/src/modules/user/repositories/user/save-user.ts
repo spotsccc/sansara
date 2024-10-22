@@ -1,6 +1,6 @@
-import { db } from "~/db";
-import { users } from "../../schemas/users";
-import { type UserWithPassword } from "../../model";
+import { db } from "~/db/index.js";
+import { users } from "../../schemas/users.js";
+import { type UserWithPassword } from "../../model/index.js";
 
 export async function saveUser(
   user: UserWithPassword,

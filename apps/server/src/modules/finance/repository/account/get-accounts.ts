@@ -1,10 +1,12 @@
 import { type Account } from "@repo/models/finance";
-import { db } from "~/db";
+import { eq } from "drizzle-orm";
+import { db } from "~/db/index.js";
+import { accounts } from "~/db/schema.js";
 
 export async function getAccounts(userId: string): Promise<Array<Account>> {
-  const accounts = await db.query.accounts.findMany({
-    where: (account, { eq }) => eq(account.userId, userId),
+  const accs = await db.query.accounts.findMany({
+    where: eq(accounts.userId, userId),
   });
 
-  return accounts as Array<Account>;
+  return accs as Array<Account>;
 }

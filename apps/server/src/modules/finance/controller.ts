@@ -1,13 +1,13 @@
 import { Hono } from "hono";
 import { createError, createSuccess, isError } from "@repo/result";
-import { authGuard, getUser } from "../auth/auth-guard";
-import { getAccounts } from "./repository/account/get-accounts";
+import { authGuard, getUser } from "../auth/auth-guard.js";
+import { getAccounts } from "./repository/account/get-accounts.js";
 import { z } from "zod";
 import { validator } from "hono/validator";
-import { getAccountById } from "./repository/account/get-account-by-id";
-import { accountSave } from "./services/account-save";
+import { getAccountById } from "./repository/account/get-account-by-id.js";
+import { accountSave } from "./services/account-save.js";
 import type { Account, Transaction } from "@repo/models/finance";
-import { applyTransactionService } from "./services/transaction-applier";
+import { applyTransactionService } from "./services/transaction-applier.js";
 import { accountSaveInput } from "@repo/contracts/finance";
 
 const TransactionBase = z.object({

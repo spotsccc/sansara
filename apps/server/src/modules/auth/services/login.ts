@@ -1,9 +1,9 @@
 import { type LoginInput, type LoginOutput } from "@repo/contracts/auth";
 import { createError, createSuccess } from "@repo/result";
 import { hash } from "crypto";
-import { getUserByEmail } from "~/modules/user/repositories/user";
-import { saveAccessToken } from "../repositories/access-token";
-import { toClientUser } from "~/modules/user/model";
+import { getUserByEmail } from "~/modules/user/repositories/user/index.js";
+import { saveAccessToken } from "../repositories/access-token/index.js";
+import { toClientUser } from "~/modules/user/model/index.js";
 
 export async function login(input: LoginInput): Promise<LoginOutput> {
   const user = await getUserByEmail(input.email);

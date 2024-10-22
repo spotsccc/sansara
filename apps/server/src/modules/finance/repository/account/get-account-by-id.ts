@@ -1,10 +1,12 @@
 import type { Account } from "@repo/models/finance";
-import { db } from "~/db";
+import { eq } from "drizzle-orm";
+import { db } from "~/db/index.js";
+import { accounts } from "~/db/schema.js";
 
 export async function getAccountById(id: string): Promise<Account | null> {
   return (
     ((await db.query.accounts.findFirst({
-      where: (account, { eq }) => eq(account.id, id),
+      where: eq(accounts.id, id),
     })) as Account) ?? null
   );
 }

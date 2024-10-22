@@ -1,10 +1,12 @@
 import { type Category } from "@repo/models/finance";
-import { db } from "~/db";
+import { eq } from "drizzle-orm";
+import { db } from "~/db/index.js";
+import { categories } from "~/db/schema.js";
 
 export async function getCategories(userId: string): Promise<Array<Category>> {
-  const categories = await db.query.categories.findMany({
-    where: (category, { eq }) => eq(category.userId, userId),
+  const cts = await db.query.categories.findMany({
+    where: eq(categories.userId, userId),
   });
 
-  return categories;
+  return cts;
 }

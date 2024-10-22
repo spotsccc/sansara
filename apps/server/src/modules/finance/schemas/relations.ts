@@ -1,8 +1,8 @@
-import { accounts } from "./accounts";
+import { accounts } from "./accounts.js";
 import { relations } from "drizzle-orm";
-import { transactions } from "./transactions";
-import { users } from "~/modules/user/schemas/users";
-import { categories } from "./categories";
+import { transactions } from "./transactions.js";
+import { users } from "~/modules/user/schemas/users.js";
+import { categories } from "./categories.js";
 
 export const accountsRelations = relations(accounts, ({ one, many }) => ({
   user: one(users, {

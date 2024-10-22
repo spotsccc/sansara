@@ -1,30 +1,38 @@
 {
   "name": "server",
+  "type": "module",
   "scripts": {
+    "prod": "tsx src/index.ts",
+    "build": "rollup -c",
     "dev": "tsx watch src/index.ts",
     "generate-migrations": "drizzle-kit generate",
     "run-migrations": "tsx src/db/migrate.ts"
+  },
+  "engines": {
+    "node": "^20.16.0"
   },
   "exports": {
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@repo/models": "*",
-    "@repo/contracts": "*",
-    "@repo/result": "*",
     "@hono/node-server": "^1.12.2",
     "@hono/zod-validator": "^0.2.2",
-    "hono": "^4.5.11",
-    "zod": "^3.23.8",
+    "@repo/contracts": "*",
+    "@repo/models": "*",
+    "@repo/result": "*",
     "dayjs": "^1.11.12",
     "drizzle-orm": "^0.33.0",
-    "pg": "^8.12.0"
+    "hono": "^4.5.11",
+    "pg": "^8.12.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.1",
     "@types/node": "^20.11.17",
-    "tsx": "^4.7.1",
     "@types/pg": "^8.11.6",
     "dotenv": "^16.4.5",
-    "drizzle-kit": "^0.24.0"
+    "drizzle-kit": "^0.24.0",
+    "rollup": "^4.24.0",
+    "tsx": "^4.7.1"
   }
 }

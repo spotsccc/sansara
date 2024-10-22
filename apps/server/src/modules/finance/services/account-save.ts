@@ -1,5 +1,5 @@
 import { type Account } from "@repo/models/finance";
-import { saveAccount } from "../repository/account/save-account";
+import { saveAccount } from "../repository/account/save-account.js";
 import { createError, createSuccess } from "@repo/result";
 import { type User } from "@repo/models/users";
 import { type AccountSaveOutput } from "@repo/contracts/finance";
