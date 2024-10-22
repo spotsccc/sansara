@@ -1,4 +1,4 @@
-import { Category } from "@repo/models/finance";
+import { type Category } from "@repo/models/finance";
 import { db } from "~/db";
 
 export async function getCategories(userId: string): Promise<Array<Category>> {

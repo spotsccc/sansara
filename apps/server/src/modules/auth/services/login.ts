@@ -1,4 +1,4 @@
-import { LoginInput, LoginOutput } from "@repo/contracts/auth";
+import { type LoginInput, type LoginOutput } from "@repo/contracts/auth";
 import { createError, createSuccess } from "@repo/result";
 import { hash } from "crypto";
 import { getUserByEmail } from "~/modules/user/repositories/user";

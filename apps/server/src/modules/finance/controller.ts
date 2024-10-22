@@ -1,14 +1,14 @@
 import { Hono } from "hono";
 import { createError, createSuccess, isError } from "@repo/result";
-import { accountCreateInput } from "@repo/contracts/finance";
 import { authGuard, getUser } from "../auth/auth-guard";
 import { getAccounts } from "./repository/account/get-accounts";
 import { z } from "zod";
 import { validator } from "hono/validator";
 import { getAccountById } from "./repository/account/get-account-by-id";
 import { accountSave } from "./services/account-save";
-import { Account, Transaction } from "@repo/models/finance";
+import type { Account, Transaction } from "@repo/models/finance";
 import { applyTransactionService } from "./services/transaction-applier";
+import { accountSaveInput } from "@repo/contracts/finance";
 
 const TransactionBase = z.object({
   amount: z.string(),
@@ -96,7 +96,7 @@ export const financeController = new Hono()
   .post(
     "/accounts",
     validator("json", (input, c) => {
-      const i = accountCreateInput.safeParse(input);
+      const i = accountSaveInput.safeParse(input);
       if (!i.success) {
         return c.json(
           createError({ type: "validation-error", errors: i.error.flatten() }),

@@ -1,8 +1,8 @@
 import { createError, createSuccess } from "@repo/result";
-import { Context } from "hono";
+import { type Context } from "hono";
 import { getCookie } from "hono/cookie";
 import { getUserByAccessToken } from "../user/repositories/user";
-import { User } from "@repo/models/users";
+import { type User } from "@repo/models/users";
 
 export async function authGuard(c: Context) {
   const accessToken = getCookie(c, "access-token");

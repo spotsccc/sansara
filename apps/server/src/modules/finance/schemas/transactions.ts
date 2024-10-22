@@ -7,7 +7,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { accounts } from "./accounts";
-import { InferModel } from "drizzle-orm";
+import { type InferModel } from "drizzle-orm";
 import { categories } from "./categories";
 import { users } from "~/modules/user/schemas/users";
 

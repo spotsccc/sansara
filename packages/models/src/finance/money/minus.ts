@@ -1,4 +1,4 @@
-import { Money } from "./money";
+import { type Money } from "./money";
 
 export function minus(current: Money, diff: Money): Money {
   if (current.accuracy > diff.accuracy) {

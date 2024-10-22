@@ -1,5 +1,5 @@
 import { db } from "~/db";
-import { UserWithPassword } from "../model";
+import { type UserWithPassword } from "../../model";
 
 export async function getUserByEmail(
   email: string,

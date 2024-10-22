@@ -1,4 +1,4 @@
-import { User } from "@repo/models/users";
+import { type User } from "@repo/models/users";
 import { hash, randomUUID } from "crypto";
 
 export type UserWithPassword = User & { password: string };

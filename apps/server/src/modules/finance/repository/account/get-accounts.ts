@@ -1,4 +1,4 @@
-import { Account } from "@repo/models/finance";
+import { type Account } from "@repo/models/finance";
 import { db } from "~/db";
 
 export async function getAccounts(userId: string): Promise<Array<Account>> {

@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
+import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import { config } from "../config";
 import * as schema from "./schema";
 export let db: NodePgDatabase<typeof schema>;

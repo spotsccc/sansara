@@ -1,12 +1,11 @@
 import { createError, isError } from "@repo/result";
 import { getAccountById } from "../repository/account/get-account-by-id";
 import { saveAccount } from "../repository/account/save-account";
-import { saveTransaction } from "../repository/transaction";
 import {
-  Transaction,
-  TransactionExpense,
-  TransactionIncome,
-  TransactionTransfer,
+  type Transaction,
+  type TransactionExpense,
+  type TransactionIncome,
+  type TransactionTransfer,
   applyTransaction,
 } from "@repo/models/finance";
 
@@ -37,7 +36,6 @@ async function applyIncomeTransaction(tx: TransactionIncome) {
   }
 
   await saveAccount(applyResult.success);
-  await saveTransaction(tx);
 
   return applyResult;
 }
@@ -56,7 +54,6 @@ async function applyExpenseTransaction(tx: TransactionExpense) {
   }
 
   await saveAccount(applyResult.success);
-  await saveTransaction(tx);
 
   return applyResult;
 }
@@ -87,7 +84,6 @@ async function applyTransferTransaction(tx: TransactionTransfer) {
 
   await saveAccount(applyTransferResult.success);
   await saveAccount(applyResult.success);
-  await saveTransaction(tx);
 
   return applyResult;
 }

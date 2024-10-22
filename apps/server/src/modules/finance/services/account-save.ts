@@ -1,8 +1,8 @@
-import { Account } from "@repo/models/finance";
+import { type Account } from "@repo/models/finance";
 import { saveAccount } from "../repository/account/save-account";
 import { createError, createSuccess } from "@repo/result";
-import { AccountSaveOutput } from "../../../../../../packages/contracts/src/finance/account/create";
-import { User } from "@repo/models/users";
+import { type User } from "@repo/models/users";
+import { type AccountSaveOutput } from "@repo/contracts/finance";
 
 export async function accountSave(
   account: Account,

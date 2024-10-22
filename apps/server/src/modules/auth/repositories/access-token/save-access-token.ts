@@ -1,7 +1,7 @@
 import { db } from "~/db";
 import dayjs from "dayjs";
 import { accessTokens } from "../../schemas/access-tokens";
-import { AccessToken } from "../../models/access-token";
+import { type AccessToken } from "@repo/models/auth";
 
 export async function saveAccessToken(userId: string): Promise<AccessToken> {
   const accessToken = (

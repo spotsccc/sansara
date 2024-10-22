@@ -1,5 +1,5 @@
 export {
-  type AccountSaveInput as AccountCreateInput,
-  type AccountSaveOutput as AccountCreateOutput,
-  accountSaveInput as accountCreateInput,
+  type AccountSaveInput,
+  type AccountSaveOutput,
+  accountSaveInput,
 } from "./account/create";

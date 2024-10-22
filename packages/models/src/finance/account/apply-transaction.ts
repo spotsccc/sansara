@@ -1,13 +1,13 @@
 import { updateBalance } from "./update-balance";
-import { Account } from "./account";
+import { type Account } from "./account";
 import { createEmptyMoney, minus, plus } from "../money";
-import {
+import type {
   Transaction,
   TransactionIncome,
   TransactionExpense,
   TransactionTransfer,
 } from "../transaction";
-import { Result, createError, createSuccess } from "@repo/result";
+import { type Result, createError, createSuccess } from "@repo/result";
 
 export type ApplyTransactionErrors = "Account has not enought funds";
 

@@ -1,6 +1,6 @@
 import { v7 } from "uuid";
 
-import { Currency, Money } from "../money/money";
+import { type Currency, type Money } from "../money/money";
 
 export type TransactionType = "income" | "transfer" | "expense";
 

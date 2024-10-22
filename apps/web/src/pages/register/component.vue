@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { api } from '@/shared/api'
+import { api } from '@/infrastructure/api'
 import { useUserStore } from '@/shared/auth'
 import { getValidationError } from '@/shared/lib/get-validation-error'
 import { Input } from '@/shared/ui/input'

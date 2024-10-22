@@ -1,4 +1,3 @@
-import { api } from '@/shared/api'
 import { saveAccount } from '@/shared/database/accounts-repository'
 import {
   type Currency,
@@ -6,8 +5,9 @@ import {
   type Account
 } from '@repo/models/finance'
 import { createError, createSuccess, isError, type Result } from '@repo/result'
-import type { AccountSaveOutput } from '../../../../../../packages/contracts/src/finance/account/create'
 import { addUnsyncItem } from '@/shared/sync'
+import type { AccountSaveOutput } from '@repo/contracts/finance'
+import { api } from '@/infrastructure/api'
 
 type CreateAccountOutput = Result<
   Account,

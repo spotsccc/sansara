@@ -1,5 +1,5 @@
-import { Account } from "./account";
-import { Money } from "../money/money";
+import { type Account } from "./account";
+import { type Money } from "../money/money";
 
 export function updateBalance(
   account: Account,

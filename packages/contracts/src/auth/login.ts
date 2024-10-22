@@ -1,4 +1,4 @@
-import z, { typeToFlattenedError } from "zod";
+import z, { type typeToFlattenedError } from "zod";
 import type { Result } from "@repo/result";
 import type { AccessToken } from "@repo/models/auth";
 import type { User } from "@repo/models/users";

@@ -1,11 +1,10 @@
-import { hc, type InferRequestType, type InferResponseType } from 'hono/client'
+import { hc, type InferResponseType } from 'hono/client'
 import type { AppType } from 'server'
 import type { LoginInput, RegisterInput } from '@repo/contracts/auth'
-import type { AccountCreateInput } from '@repo/contracts/finance'
 import { ref } from 'vue'
 import { getConfig } from '@/shared/config'
 import { createError, type Result } from '@repo/result'
-import Message from 'primevue/message'
+import type { AccountSaveInput } from '@repo/contracts/finance'
 
 function createRequest<I = void, O = unknown>(fn: (input: I) => Promise<O>) {
   const isPending = ref(false)
@@ -115,7 +114,7 @@ const getAccount = createRequest(async (id: number) => {
   return res.json()
 })
 
-async function saveAccount(data: AccountCreateInput) {
+async function saveAccount(data: AccountSaveInput) {
   const res = await client.finance.accounts.$post({ json: data })
   return res.json()
 }

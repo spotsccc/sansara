@@ -1,6 +1,6 @@
 import { v7 } from "uuid";
 
-import { Currency, Money } from "../money";
+import type { Currency, Money } from "../money";
 
 export type Account = {
   id: string;

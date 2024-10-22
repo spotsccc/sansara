@@ -1,4 +1,4 @@
-import { Account } from "@repo/models/finance";
+import { type Account } from "@repo/models/finance";
 import { accounts } from "../../schemas/accounts";
 import { db } from "~/db";
 

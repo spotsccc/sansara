@@ -1,5 +1,5 @@
 import { type Account, Currencies } from "@repo/models/finance";
-import { Result } from "@repo/result";
+import { type Result } from "@repo/result";
 import * as z from "zod";
 
 const moneySchema = z.object({

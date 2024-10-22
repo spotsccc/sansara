@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Item } from '.'
-import { api } from '../api'
 import { getAccount } from '../database/accounts-repository'
-import { UPDATE_SYNC_QUEUE_EVENT, getQueue, saveQueue } from './add-item'
+import { UPDATE_SYNC_QUEUE_EVENT, getQueue, saveQueue, type Item } from './add-item'
+import { api } from '@/infrastructure/api'
 
 export const useSyncStore = defineStore('sync-store', () => {
   const queue = ref<Array<Item>>(getQueue())

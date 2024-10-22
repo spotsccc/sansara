@@ -1,5 +1,5 @@
 import { jsonb, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { InferModel } from "drizzle-orm";
+import { type InferModel } from "drizzle-orm";
 import { users } from "~/modules/user/schemas/users";
 
 export const accounts = pgTable("accounts", {

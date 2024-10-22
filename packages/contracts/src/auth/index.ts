@@ -6,7 +6,7 @@ export {
 } from "./login";
 export {
   registerInput,
-  RegisterInput,
-  RegisterError,
-  RegisterOutput,
+  type RegisterInput,
+  type RegisterError,
+  type RegisterOutput,
 } from "./register";
