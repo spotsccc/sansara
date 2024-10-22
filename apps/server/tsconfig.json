@@ -9,7 +9,6 @@
     "types": ["node"],
     "jsxImportSource": "hono/jsx",
     "baseUrl": ".",
-    "outDir": "dist",
     "paths": {
       "~/*": ["./src/*"]
     }
