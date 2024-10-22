@@ -38,7 +38,7 @@ watch(model, () => {
 
 const value = computed(() => (model.value?.length === 0 ? undefined : Number(model.value)))
 
-function inputHandler(v: { value: number }) {
+function inputHandler(v: { value?: number | string }) {
   model.value = v.value === null ? '' : String(v.value)
 }
 </script>

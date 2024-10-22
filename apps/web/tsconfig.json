@@ -1,5 +1,5 @@
 {
-  "exclude": ["src/**/__tests__/*", "../server/**/*.ts"],
+  "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "plugins": [{ "name": "@vue/typescript-plugin" }],
     "skipLibCheck": true
