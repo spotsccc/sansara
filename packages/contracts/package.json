@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./auth": "./src/auth/index.ts",
-    "./finance": "./src/finance/index.ts"
+    "./auth": "./dist/auth/index.js",
+    "./finance": "./dist/finance/index.js"
   },
   "scripts": {
+    "build": "tsc",
     "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {

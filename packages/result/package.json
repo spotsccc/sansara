@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./dist/index.js"
   },
   "scripts": {
+    "build": "tsc",
     "lint": "eslint . --max-warnings 0"
   },
   "devDependencies": {

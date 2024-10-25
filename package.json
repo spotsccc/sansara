@@ -2,6 +2,7 @@
   "name": "sansara",
   "private": true,
   "scripts": {
+    "start:server": "node apps/server/dist/src/index.js",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
