@@ -25,7 +25,7 @@ initializeDatabase();
 
 export type AppType = typeof app;
 
-const port = 3000;
+const port = 8080;
 
 serve({
   fetch: app.fetch,
