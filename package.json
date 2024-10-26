@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "start:server": "node apps/server/dist/bundle.js",
+    "build:server": "turbo build --filter=server",
+    "build:web": "turbo build --filter=web",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
