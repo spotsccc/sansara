@@ -12,7 +12,7 @@ export let config: Config;
 
 export function initConfig() {
   const mayBeConfig = {
-    DATABASE_URL: ["DATABASE_URL"],
+    DATABASE_URL: process.env["DATABASE_URL"],
     ENV: process.env["ENV"],
   };
 
