@@ -6,10 +6,6 @@ import * as schema from "./schema";
 
 const connection = new Client({
   connectionString: process.env["DATABASE_URL"],
-  ssl: {
-    rejectUnauthorized: false,
-    requestCert: false,
-  },
 });
 
 console.log(process.env["DATABASE_URL"]);
