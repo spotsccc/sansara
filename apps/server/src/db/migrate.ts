@@ -13,6 +13,7 @@ const connection = new Client({
 });
 
 console.log(process.env["DATABASE_URL"]);
+console.log(process.env["CA_CERT"]);
 
 connection
   .connect()
