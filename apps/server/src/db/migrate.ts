@@ -12,6 +12,8 @@ const connection = new Client({
   },
 });
 
+console.log(process.env["DATABASE_URL"]);
+
 connection
   .connect()
   .then(() => {
