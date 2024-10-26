@@ -9,7 +9,7 @@ let config: Config
 function createConfig(): Config {
   return {
     api: {
-      url: 'http://localhost:3000'
+      url: '/api'
     }
   }
 }
