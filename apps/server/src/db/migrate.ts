@@ -8,12 +8,12 @@ const connection = new Client({
   connectionString: process.env["DATABASE_URL"],
   ssl: {
     rejectUnauthorized: true,
-    ca: process.env["CA_CERT"],
+    ca: process.env["DATABASE_CA"],
   },
 });
 
 console.log(process.env["DATABASE_URL"]);
-console.log(process.env["CA_CERT"]);
+console.log(process.env["DATABASE_CA"]);
 
 connection
   .connect()
