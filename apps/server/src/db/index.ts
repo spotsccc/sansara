@@ -7,11 +7,7 @@ export let db: NodePgDatabase<typeof schema>;
 export function initializeDatabase() {
   db = drizzle(
     new Pool({
-      host: config.DB_HOST,
-      user: config.DB_USERNAME,
-      password: config.DB_PASSWORD,
-      port: Number(config.DB_PORT),
-      database: config.DB_NAME,
+      connectionString: config.DATABASE_URL,
       max: 20,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 2000,
