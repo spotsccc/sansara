@@ -4,7 +4,13 @@ import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { Client } from "pg";
 import * as schema from "./schema";
 
-const connection = new Client(process.env["DATABASE_URL"]);
+const connection = new Client({
+  connectionString: process.env["DATABASE_URL"],
+  ssl: {
+    rejectUnauthorized: false,
+    requestCert: false,
+  },
+});
 
 connection
   .connect()
