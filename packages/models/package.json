@@ -2,10 +2,11 @@
   "name": "@repo/models",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "exports": {
-    "./finance": "./dist/finance/index.js",
-    "./auth": "./dist/auth/index.js",
-    "./users": "./dist/users/index.js"
+    "./finance": "./dist/src/finance/index.js",
+    "./auth": "./dist/src/auth/index.js",
+    "./users": "./dist/src/users/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -19,6 +20,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@repo/result": "*",
     "uuid": "^10.0.0"
   }
 }

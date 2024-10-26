@@ -2,8 +2,8 @@
   "name": "server",
   "type": "module",
   "scripts": {
-    "prod": "node dist/src/index.js",
-    "build": "tsc && tsc-alias",
+    "prod": "node dist/bundle.js",
+    "build": "rollup -c",
     "dev": "tsx watch src/index.ts",
     "generate-migrations": "drizzle-kit generate",
     "run-migrations": "tsx src/db/migrate.ts"
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-typescript": "^12.1.1",
     "@types/node": "^20.11.17",
@@ -32,7 +33,6 @@
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.24.0",
     "rollup": "^4.24.0",
-    "rollup-plugin-typescript2": "^0.36.0",
     "tsc-alias": "^1.8.10",
     "tslib": "^2.8.0",
     "tsx": "^4.7.1",

@@ -1,11 +1,11 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { authController } from "./modules/auth/controller.js";
-import { initConfig } from "./config/index.js";
-import { initializeDatabase } from "./db/index.js";
-import { financeController } from "./modules/finance/controller.js";
-import { syncController } from "./modules/sync/controller.js";
+import { authController } from "./modules/auth/controller";
+import { initConfig } from "./config";
+import { initializeDatabase } from "./db";
+import { financeController } from "./modules/finance/controller";
+import { syncController } from "./modules/sync/controller";
 
 const app = new Hono()
   .use(

@@ -6,10 +6,10 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { accounts } from "./accounts.js";
+import { accounts } from "./accounts";
 import { type InferModel } from "drizzle-orm";
-import { categories } from "./categories.js";
-import { users } from "~/modules/user/schemas/users.js";
+import { categories } from "./categories";
+import { users } from "~/modules/user/schemas/users";
 
 export const transactions = pgTable("transactions", {
   id: uuid("user_id").primaryKey(),

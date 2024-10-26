@@ -1,1 +1,1 @@
-export { saveAccessToken } from "./save-access-token.js";
+export { saveAccessToken } from "./save-access-token";

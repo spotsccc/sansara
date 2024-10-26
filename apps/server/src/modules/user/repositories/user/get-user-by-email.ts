@@ -1,7 +1,7 @@
-import { db } from "~/db/index.js";
+import { db } from "~/db";
 import { eq } from "drizzle-orm";
-import { type UserWithPassword } from "../../model/index.js";
-import { users } from "~/db/schema.js";
+import { type UserWithPassword } from "../../model";
+import { users } from "~/db/schema";
 
 export async function getUserByEmail(
   email: string,

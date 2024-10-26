@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
-import { createError, isSuccess } from "@repo/result";
-import { loginInput, registerInput } from "@repo/contracts/auth";
-import { register } from "./services/register.js";
-import { login } from "./services/login.js";
+import { register } from "./services/register";
+import { login } from "./services/login";
 import { validator } from "hono/validator";
+import { registerInput, loginInput } from "@repo/contracts/auth";
+import { createError, isSuccess } from "@repo/result";
 
 export const authController = new Hono()
   .post(
@@ -13,7 +13,10 @@ export const authController = new Hono()
       const i = registerInput.safeParse(input);
       if (!i.success) {
         return c.json(
-          createError({ type: "validation-error", errors: i.error.flatten() }),
+          createError({
+            type: "validation-error",
+            errors: i.error.flatten(),
+          }),
         );
       }
       return i.data;
@@ -38,7 +41,10 @@ export const authController = new Hono()
       const i = loginInput.safeParse(input);
       if (!i.success) {
         return c.json(
-          createError({ type: "validation-error", errors: i.error.flatten() }),
+          createError({
+            type: "validation-error",
+            errors: i.error.flatten(),
+          }),
         );
       }
       return i.data;

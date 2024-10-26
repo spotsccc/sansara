@@ -1,6 +1,6 @@
 import { type Account } from "@repo/models/finance";
-import { accounts } from "../../schemas/accounts.js";
-import { db } from "~/db/index.js";
+import { accounts } from "../../schemas/accounts";
+import { db } from "~/db";
 
 export async function saveAccount(account: Account): Promise<Account> {
   return (

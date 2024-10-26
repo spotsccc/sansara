@@ -1,1 +1,1 @@
-export { type AccessToken } from "./access-token";
+export type { AccessToken } from "./access-token";

@@ -1,8 +1,8 @@
+import { saveUser } from "~/modules/user/repositories/user";
+import { saveAccessToken } from "../repositories/access-token";
+import { createUser, toClientUser } from "~/modules/user/model";
 import type { RegisterInput, RegisterOutput } from "@repo/contracts/auth";
-import { saveUser } from "~/modules/user/repositories/user/index.js";
-import { saveAccessToken } from "../repositories/access-token/index.js";
-import { createError, createSuccess } from "@repo/result";
-import { createUser, toClientUser } from "~/modules/user/model/index.js";
+import { createSuccess, createError } from "@repo/result";
 
 export async function register(input: RegisterInput): Promise<RegisterOutput> {
   const user = createUser(input);

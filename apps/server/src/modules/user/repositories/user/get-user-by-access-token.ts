@@ -1,7 +1,7 @@
-import { db } from "~/db/index.js";
-import type { UserWithPassword } from "../../model/index.js";
+import { db } from "~/db";
+import type { UserWithPassword } from "../../model";
 import { eq } from "drizzle-orm";
-import { accessTokens } from "~/db/schema.js";
+import { accessTokens } from "~/db/schema";
 
 export async function getUserByAccessToken(
   accessToken: string,

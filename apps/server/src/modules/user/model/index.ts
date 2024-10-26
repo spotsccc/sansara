@@ -1,5 +1,5 @@
-import { type User } from "@repo/models/users";
-import { hash, randomUUID } from "crypto";
+import { User } from "@repo/models/users";
+import { randomUUID } from "crypto";
 
 export type UserWithPassword = User & { password: string };
 export function createUser({
@@ -12,7 +12,7 @@ export function createUser({
   username: string;
 }): UserWithPassword {
   return {
-    password: hash("sha256", password),
+    password,
     email,
     username,
     id: randomUUID(),

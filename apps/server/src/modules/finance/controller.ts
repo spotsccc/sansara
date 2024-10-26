@@ -1,14 +1,14 @@
 import { Hono } from "hono";
-import { createError, createSuccess, isError } from "@repo/result";
-import { authGuard, getUser } from "../auth/auth-guard.js";
-import { getAccounts } from "./repository/account/get-accounts.js";
+import { authGuard, getUser } from "../auth/auth-guard";
+import { getAccounts } from "./repository/account/get-accounts";
 import { z } from "zod";
 import { validator } from "hono/validator";
-import { getAccountById } from "./repository/account/get-account-by-id.js";
-import { accountSave } from "./services/account-save.js";
-import type { Account, Transaction } from "@repo/models/finance";
-import { applyTransactionService } from "./services/transaction-applier.js";
+import { getAccountById } from "./repository/account/get-account-by-id";
+import { accountSave } from "./services/account-save";
+import { applyTransactionService } from "./services/transaction-applier";
+import { createError, createSuccess, isError } from "@repo/result";
 import { accountSaveInput } from "@repo/contracts/finance";
+import type { Transaction, Account } from "@repo/models/finance";
 
 const TransactionBase = z.object({
   amount: z.string(),
@@ -86,11 +86,11 @@ export const financeController = new Hono()
         return c.json(authResult);
       }
 
-      const applyTransactionResult = await applyTransactionService(
+      const applyTransaction = await applyTransactionService(
         c.req.valid("json"),
       );
 
-      return c.json(applyTransactionResult);
+      return c.json(applyTransaction);
     },
   )
   .post(
@@ -99,7 +99,10 @@ export const financeController = new Hono()
       const i = accountSaveInput.safeParse(input);
       if (!i.success) {
         return c.json(
-          createError({ type: "validation-error", errors: i.error.flatten() }),
+          createError({
+            type: "validation-error",
+            errors: i.error.flatten(),
+          }),
         );
       }
       return i.data;
@@ -109,7 +112,7 @@ export const financeController = new Hono()
       if (isError(authRes)) {
         return c.json(createError({ type: "unauthorized" }));
       }
-      await next();
+      return await next();
     },
     async (c) => {
       const input = c.req.valid("json");

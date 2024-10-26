@@ -1,1 +1,1 @@
-export { getAccounts } from "./get-accounts.js";
+export { getAccounts } from "./get-accounts";

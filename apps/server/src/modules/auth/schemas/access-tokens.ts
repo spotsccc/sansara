@@ -1,6 +1,6 @@
 import { type InferModel, relations } from "drizzle-orm";
 import { pgTable, uuid, timestamp } from "drizzle-orm/pg-core";
-import { users } from "../../user/schemas/users.js";
+import { users } from "../../user/schemas/users";
 
 export const accessTokens = pgTable("access_tokens", {
   token: uuid("token").primaryKey().defaultRandom(),
