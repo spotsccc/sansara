@@ -13,7 +13,7 @@ const connection = new Pool({
   connectionTimeoutMillis: 2000,
   ssl: {
     rejectUnauthorized: true,
-    ca: process.env["DATABASE_CA"],
+    ca: process.env["DB_CA"],
   },
 });
 
