@@ -1,10 +1,10 @@
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { Client } from "pg";
+import { Pool } from "pg";
 import * as schema from "./schema";
 
-const connection = new Client({
+const connection = new Pool({
   host: process.env["DB_HOST"],
   user: process.env["DB_USERNAME"],
   password: process.env["DB_PASSWORD"],
