@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { Pool } from "pg";
 import * as schema from "./schema";
+import path from "path";
 
 const connection = new Pool({
   host: process.env["DB_HOST"],
@@ -23,7 +24,9 @@ connection
     const db = drizzle(connection, {
       schema,
     });
-    return migrate(db, { migrationsFolder: "./drizzle" });
+    return migrate(db, {
+      migrationsFolder: path.join(__dirname, "..", "drizzle"),
+    });
   })
   .then(() => {
     connection.end();
