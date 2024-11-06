@@ -2,7 +2,7 @@
 import Toast from 'primevue/toast'
 import { onBeforeMount, ref } from 'vue'
 import { initializeDatabase } from './shared/database'
-import { startUpdateTicker, SyncReminder } from './shared/sync'
+import { startUpdateTicker, SyncReminder } from './modules/sync'
 
 const databaseState = ref('not-started')
 const dbError = ref<null | string>()

@@ -1,32 +1,14 @@
-export type Money = {
-  amount: string;
-  accuracy: number;
-  currency: Currency;
-};
+import z from "zod";
 
-export type Currency =
-  | "BTC"
-  | "USD"
-  | "USDT"
-  | "ARS"
-  | "RUB"
-  | "DOT"
-  | "ATOM"
-  | "ETH"
-  | "FLOKI"
-  | "PEPE"
-  | "W"
-  | "ARB"
-  | "HFT"
-  | "GLMR"
-  | "XRP"
-  | "SOL"
-  | "DOGE"
-  | "TRX"
-  | "ADA"
-  | "TON";
+export const moneySchema = z.object({
+  amount: z.string(),
+  accuracy: z.number(),
+  currency: z.string(),
+});
 
-export function createEmptyMoney(currency: Currency): Money {
+export type Money = z.infer<typeof moneySchema>;
+
+export function createEmptyMoney(currency: string): Money {
   return {
     amount: "0",
     accuracy: 0,
@@ -34,7 +16,7 @@ export function createEmptyMoney(currency: Currency): Money {
   };
 }
 
-export const Currencies: ReadonlyArray<Currency> = [
+export const Currencies = [
   "BTC",
   "USD",
   "USDT",

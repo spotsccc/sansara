@@ -8,10 +8,10 @@ export default {
 import { Input } from '@/shared/ui/input'
 import { computed, ref } from 'vue'
 import { VStack } from '@/shared/ui/stack'
-import { type Currency, Currencies } from '@repo/models/finance'
+import { Currencies } from '@repo/models/finance'
 
-defineEmits<{ (e: 'currencySelected', currency: Currency): void }>()
-defineProps<{ currency: Currency | null }>()
+defineEmits<{ (e: 'currencySelected', currency: string): void }>()
+defineProps<{ currency: string | null }>()
 
 const searchString = ref('')
 
@@ -21,10 +21,11 @@ const currencies = computed(() => {
 </script>
 
 <template>
-  <VStack gap="md" h="100%" style="overflow: hidden">
-    <Input v-model.upper="searchString" placeholder="Search currency..." />
-    <VStack is="ul" m="0" p="0" gap="sm" :class="$style.list">
+  <VStack data-testid="currency-screen" gap="md" h="100%" style="overflow: hidden">
+    <Input testId="search-input" v-model.upper="searchString" placeholder="Search currency..." />
+    <VStack data-testid="currency-list" is="ul" m="0" p="0" gap="sm" :class="$style.list">
       <li
+        data-testid="currency-option"
         v-for="currency in currencies"
         :key="currency"
         @click="$emit('currencySelected', currency)"

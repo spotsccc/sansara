@@ -8,7 +8,7 @@ export async function authGuard(c: Context) {
   const accessToken = getCookie(c, "access-token");
   if (!accessToken) {
     return createError({
-      type: "unauthorized",
+      type: "unauthorized" as const,
       message: "Has no access token",
     });
   }
@@ -16,7 +16,7 @@ export async function authGuard(c: Context) {
 
   if (!user) {
     return createError({
-      type: "unauthorized",
+      type: "unauthorized" as const,
       message: "User not found",
     });
   }

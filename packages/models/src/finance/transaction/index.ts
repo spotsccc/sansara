@@ -1,5 +1,10 @@
 export {
   createTransaction,
+  transactionSchema,
+  transactionTransferSchema,
+  transactionExpenseSchema,
+  transactionIncomeSchema,
+  transactionBaseSchema,
   type Transaction,
   type TransactionBase,
   type TransactionExpense,
@@ -7,4 +12,7 @@ export {
   type TransactionTransfer,
   type TransactionType,
   type TransactionInput,
+  type TransactionExpenseInput,
+  type TransactionTransferInput,
+  type TransactionIncomeInput,
 } from "./transaction";

@@ -3,11 +3,16 @@ export {
   minus,
   createEmptyMoney,
   type Money,
-  type Currency,
   Currencies,
+  moneySchema,
 } from "./money";
 export {
   createTransaction,
+  transactionBaseSchema,
+  transactionIncomeSchema,
+  transactionExpenseSchema,
+  transactionTransferSchema,
+  transactionSchema,
   type TransactionType,
   type TransactionBase,
   type Transaction,
@@ -15,6 +20,14 @@ export {
   type TransactionIncome,
   type TransactionTransfer,
   type TransactionInput,
+  type TransactionExpenseInput,
+  type TransactionTransferInput,
+  type TransactionIncomeInput,
 } from "./transaction";
-export { type Category, createCategory } from "./category";
-export { createAccount, applyTransaction, type Account } from "./account";
+export { type Category, createCategory, categorySchema } from "./category";
+export {
+  createAccount,
+  applyTransaction,
+  type Account,
+  accountSchema,
+} from "./account";

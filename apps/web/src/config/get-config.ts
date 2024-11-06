@@ -9,7 +9,7 @@ let config: Config
 function createConfig(): Config {
   return {
     api: {
-      url: '/api'
+      url: import.meta.env.VITE_API_URL ?? '/api'
     }
   }
 }

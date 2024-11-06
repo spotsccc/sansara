@@ -16,11 +16,14 @@ const { name, nameError, nameChangeHandler, nameEntered } = useAccountCreateMode
 <template>
   <VStack h="100%" justify="space-between">
     <Input
+      testId="name-input"
       placeholder="Enter account name"
       v-model:model-value="name"
       @update:model-value="nameChangeHandler"
       :error="nameError"
     />
-    <Button :disabled="nameError.length !== 0" @click="nameEntered">Next</Button>
+    <Button data-testid="confirm-button" :disabled="nameError.length !== 0" @click="nameEntered"
+      >Next</Button
+    >
   </VStack>
 </template>

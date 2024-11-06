@@ -7,7 +7,7 @@ const configScheme = z.object({
   DB_HOST: z.string(),
   DB_PORT: z.string(),
   DB_NAME: z.string(),
-  ENV: z.union([z.literal("production"), z.literal("development")]),
+  ENV: z.union([z.literal("production"), z.literal("development")]).optional(),
   DB_CA: z.string(),
 });
 
@@ -23,7 +23,7 @@ export function initConfig() {
     DB_PORT: process.env["DB_PORT"],
     DB_NAME: process.env["DB_NAME"],
     DB_CA: process.env["DB_CA"],
-    ENV: process.env["ENV"],
+    ENV: process.env["ENV"] ?? "development",
   };
 
   const { success, data, error } = configScheme.safeParse(mayBeConfig);

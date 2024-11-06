@@ -2,9 +2,10 @@ import { hc, type InferResponseType } from 'hono/client'
 import type { AppType } from 'server'
 import type { LoginInput, RegisterInput } from '@repo/contracts/auth'
 import { ref } from 'vue'
-import { getConfig } from '@/shared/config'
+import { getConfig } from '@/config'
 import { createError, type Result } from '@repo/result'
 import type { AccountSaveInput } from '@repo/contracts/finance'
+import type { Category, Transaction } from '@repo/models/finance'
 
 function createRequest<I = void, O = unknown>(fn: (input: I) => Promise<O>) {
   const isPending = ref(false)
@@ -33,8 +34,8 @@ export type ApiResponse<R extends Result<unknown, unknown>> = Promise<
   >
 >
 
-export const API_ERROR = 'api-error'
-export const JSON_PARSING_ERROR = 'json-parsing-error'
+export const API_ERROR = 'api-error' as const
+export const JSON_PARSING_ERROR = 'json-parsing-error' as const
 
 export type ApiError = {
   type: typeof API_ERROR
@@ -102,11 +103,11 @@ async function getUpdates(lastSyncDate: Date) {
   }
 }
 
-const register = createRequest(async (data: RegisterInput) => {
+async function register(data: RegisterInput) {
   const res = await client.auth.register.$post({ json: data })
 
   return res.json()
-})
+}
 
 const getAccount = createRequest(async (id: number) => {
   const res = await client.finance.accounts[':id'].$get({ param: { id: String(id) } })
@@ -140,10 +141,22 @@ async function initialLoad(): ApiResponse<InferResponseType<typeof client.sync.l
   }
 }
 
+async function saveTransaction(data: Transaction) {
+  const res = await client.finance.transactions.$post({ json: data })
+  return res.json()
+}
+
+async function saveCategory(data: Category) {
+  const res = await client.finance.categories.$post({ json: data })
+  return res.json()
+}
+
 export const api = {
+  saveTransaction,
   login,
   register,
   saveAccount,
   initialLoad,
-  getUpdates
+  getUpdates,
+  saveCategory
 }

@@ -5,12 +5,11 @@ import type { Account } from '@repo/models/finance'
 import { AccountCard } from '@/modules/finance/account-card'
 import { getAccounts } from '@/shared/database/accounts-repository'
 import { RouterLink, useRouter } from 'vue-router'
-import { useUserStore } from '@/shared/auth'
+import { useUserStore } from '@/modules/auth'
 
 const router = useRouter()
 const userStore = useUserStore()
 
-const error = ref<null | string>(null)
 const accounts = ref<Array<Account>>([])
 
 onBeforeMount(async () => {
@@ -23,13 +22,17 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="root">
-    <div v-if="error">{{ error }}</div>
-    <div class="container" v-else>
-      <h1>Accounts:</h1>
-      <Button :as="RouterLink" to="/accounts/create" class="createButton">
-        Create new account
-      </Button>
+  <div data-testid="root" class="root">
+    <h1 data-testid="title">Accounts:</h1>
+    <Button
+      data-testid="create-account-button"
+      :as="RouterLink"
+      to="/accounts/create"
+      class="createButton"
+    >
+      Create new account
+    </Button>
+    <div data-testid="account-list">
       <AccountCard v-for="account in accounts" :account :key="account.id!" />
     </div>
   </div>
@@ -38,9 +41,6 @@ onBeforeMount(async () => {
 <style scoped>
 .root {
   padding: 24px;
-}
-
-.container {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,0 +1,39 @@
+name: E2E tests
+
+on: [push]
+
+jobs:
+  setup-environment:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: plata
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: username
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install nodejs
+        uses: actions/setup-node@v4
+        with:
+          - node-version: ">=22.0.0"
+
+      - name: Run services
+        run: npm run dev
+
+      - name: Run E2E tests
+        working-directory: apps/E2E
+        run: npm run test

@@ -2,8 +2,7 @@ import { useRouteQuery } from '@vueuse/router'
 import { computed, inject, provide, ref, type InjectionKey } from 'vue'
 import { createAccount } from '../account-service/account-create'
 import { useRouter } from 'vue-router'
-import type { Currency } from '@repo/models/finance'
-import { useUserStore } from '@/shared/auth'
+import { useUserStore } from '@/modules/auth'
 import { isError } from '@repo/result'
 import { useToast } from 'primevue/usetoast'
 
@@ -41,7 +40,7 @@ export function useProvideAccountCreateModel() {
   const userStore = useUserStore()
 
   const step = useRouteQuery<Step>('step', 'currency')
-  const currency = useRouteQuery<Currency | null>('currency', null)
+  const currency = useRouteQuery<string>('currency', '')
 
   const name = useRouteQuery<string>('name', '')
   const nameError = ref('')
@@ -51,7 +50,7 @@ export function useProvideAccountCreateModel() {
 
   const isFirstStep = computed(() => step.value === 'currency')
 
-  function currencyChangeHandler(c: Currency | null) {
+  function currencyChangeHandler(c: string) {
     currency.value = c
     step.value = nextStep(step.value)
   }

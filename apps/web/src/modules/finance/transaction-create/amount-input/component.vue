@@ -15,7 +15,7 @@ const fontSizeStyle = computed(() => ({ fontSize: `${fontSize.value}px` }))
 watch(model, () => {
   if (inputRef.value && divRef.value) {
     // @ts-ignore
-    const inputWidth = inputRef.value.rootEl.getBoundingClientRect().width
+    const inputWidth = inputRef.value.$el.getBoundingClientRect().width
     const textWidth = divRef.value.getBoundingClientRect().width
 
     if (textWidth > 0 && fontSize.value >= 12 && fontSize.value <= 48) {
@@ -52,7 +52,7 @@ function inputHandler(v: { value?: number | string }) {
     :input-style="fontSizeStyle"
     :placeholder="`0.00 ${currency}`"
     ref="input"
-    :suffix="`${currency}`"
+    :suffix="` ${currency}`"
     :max-fraction-digits="12"
   />
 </template>

@@ -1,11 +1,11 @@
 import { api } from '@/infrastructure/api'
-import { useUserStore } from '@/shared/auth'
-import { unloadDatabase } from '@/shared/database'
-import { loadDatabase } from '@/shared/database/load-database'
+import { useUserStore } from '@/modules/auth'
+import { reloadDatabase } from '@/shared/database/unload-database'
 import type { LoginInput } from '@repo/contracts/auth'
 import { isError } from '@repo/result'
+import { clearQueue } from '../sync/add-item'
 
-export async function loginService(input: LoginInput) {
+export async function login(input: LoginInput) {
   const userStore = useUserStore()
 
   const loginResult = await api.login(input)
@@ -16,8 +16,6 @@ export async function loginService(input: LoginInput) {
 
   userStore.userLoaded(loginResult.success.user)
 
-  await unloadDatabase()
-
   const initialLoadResult = await api.initialLoad()
 
   if (isError(initialLoadResult)) {
@@ -26,11 +24,8 @@ export async function loginService(input: LoginInput) {
 
   const initialData = initialLoadResult.success
 
-  const loadDatabaseResult = await loadDatabase(initialData)
-
-  if (isError(loadDatabaseResult)) {
-    return loadDatabaseResult
-  }
+  await reloadDatabase({ accounts: initialData.accounts, transactions: [], categories: [] })
+  clearQueue()
 
   return loginResult
 }

@@ -1,2 +1,2 @@
 export { initializeDatabase } from './init-database'
-export { unloadDatabase } from './unload-database'
+export { TransactionsRepository } from './transaction-repository'

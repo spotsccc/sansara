@@ -19,14 +19,16 @@ const { name, currency, loading, accountCreateButtonClicked, createAccountError 
     <VStack gap="md">
       <VGroup justify="space-between">
         <span>Name:</span>
-        <span>{{ name }}</span>
+        <span data-testid="name">{{ name }}</span>
       </VGroup>
       <VGroup justify="space-between">
         <span>Default currency:</span>
-        <span>{{ currency }}</span>
+        <span data-testid="currency">{{ currency }}</span>
       </VGroup>
       <span>{{ createAccountError }}</span>
     </VStack>
-    <Button @click="accountCreateButtonClicked" :loading="loading">Create account</Button>
+    <Button data-testid="confirm-button" @click="accountCreateButtonClicked" :loading="loading"
+      >Create account</Button
+    >
   </VStack>
 </template>

@@ -9,13 +9,15 @@ defineProps<{ account: Account }>()
 </script>
 
 <template>
-  <Card class="card">
+  <Card data-testid="account-card" class="card">
     <template #content>
       <div class="root">
         <div class="leftColumn">
           <div class="accountInfo">
-            <div>{{ account.name }}</div>
-            <div>{{ formatMoney(account.balance[account.defaultCurrency]) }}</div>
+            <div data-testid="name">{{ account.name }}</div>
+            <div data-testid="balance">
+              {{ formatMoney(account.balance[account.defaultCurrency]) }}
+            </div>
           </div>
           <div class="links">
             <RouterLink :to="`/accounts/${account.id}/transactions/create?type=income&backUrl=/`">

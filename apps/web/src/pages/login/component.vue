@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { api } from '@/infrastructure/api'
-import { useUserStore } from '@/shared/auth'
-import { unloadDatabase } from '@/shared/database'
-import { loadDatabase } from '@/shared/database/load-database'
+import { AuthService } from '@/modules/auth'
 import { getValidationError } from '@/shared/lib/get-validation-error'
 import { Input } from '@/shared/ui/input'
-import { useSyncStore } from '@/shared/sync'
+import { useSyncStore } from '@/modules/sync'
 import { VStack } from '@/shared/ui/stack'
 import { isError } from '@repo/result'
 import Button from 'primevue/button'
@@ -14,12 +11,11 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import Dialog from 'primevue/dialog'
 import { VGroup } from '@/shared/ui/group'
-import { clearQueue } from '@/shared/sync/add-item'
+import { clearQueue } from '@/modules/sync/add-item'
 
 const router = useRouter()
 const syncStore = useSyncStore()
 const toast = useToast()
-const userStore = useUserStore()
 
 const loading = ref(false)
 const email = ref('')
@@ -48,7 +44,9 @@ async function losingDataCanceled() {
 }
 
 async function login() {
-  const loginResult = await api.login({ email: email.value, password: password.value })
+  loading.value = true
+  const loginResult = await AuthService.login({ email: email.value, password: password.value })
+  loading.value = false
 
   if (isError(loginResult)) {
     const error = loginResult.error
@@ -69,25 +67,6 @@ async function login() {
     return
   }
 
-  userStore.userLoaded(loginResult.success.user)
-  await unloadDatabase()
-
-  const initialLoadResult = await api.initialLoad()
-
-  if (isError(initialLoadResult)) {
-    toast.add({ severity: 'error', summary: initialLoadResult.error.message })
-    return
-  }
-
-  const initialData = initialLoadResult.success
-
-  const loadDatabaseResult = await loadDatabase(initialData)
-
-  if (isError(loadDatabaseResult)) {
-    toast.add({ severity: 'error', summary: loadDatabaseResult.error.message })
-    return
-  }
-
   clearQueue()
 
   router.push('/')
@@ -105,10 +84,17 @@ async function login() {
       <Button @click="losingDataCanceled" severity="secondary">Cancel</Button>
     </VGroup>
   </Dialog>
-  <VStack h="100dvh" justify="center" align="center" p="md" gap="xl">
+  <VStack data-testid="root" h="100dvh" justify="center" align="center" p="md" gap="xl">
     <h1 class="title">Login into your account</h1>
-    <VStack w="100%" is="form" @submit.prevent="loginButtonClicked" gap="md">
+    <VStack
+      data-testid="login-form"
+      w="100%"
+      is="form"
+      @submit.prevent="loginButtonClicked"
+      gap="md"
+    >
       <Input
+        testId="email"
         :error="emailError"
         v-model="email"
         type="email"
@@ -116,15 +102,18 @@ async function login() {
         placeholder="Enter your email"
       />
       <Input
+        testId="password"
         :error="passwordError"
         type="password"
         v-model="password"
         label="Password"
         placeholder="Enter your password"
       />
-      <Button :loading="loading" type="submit">Login</Button>
+      <Button data-testid="submit-button" :loading="loading" type="submit">Login</Button>
     </VStack>
-    <RouterLink class="link" to="/auth/register">Don't have an account?</RouterLink>
+    <RouterLink data-testid="dont-have-account-link" class="link" to="/auth/register">
+      Don't have an account?
+    </RouterLink>
   </VStack>
 </template>
 

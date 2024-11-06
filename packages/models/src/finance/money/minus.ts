@@ -1,6 +1,11 @@
+import { createError, createSuccess } from "@repo/result";
 import { type Money } from "./money";
 
-export function minus(current: Money, diff: Money): Money {
+export const ERRORS = {
+  notEnoughtFunds: "not-enought-funds" as const,
+};
+
+export function minus(current: Money, diff: Money) {
   if (current.accuracy > diff.accuracy) {
     const accuracyDiff = current.accuracy - diff.accuracy;
 
@@ -8,17 +13,14 @@ export function minus(current: Money, diff: Money): Money {
       BigInt(current.amount) - BigInt(diff.amount) * BigInt(10 ** accuracyDiff);
 
     if (amount < 0) {
-      throw new Error("Add error handling!!!");
+      return createError({ type: ERRORS.notEnoughtFunds });
     }
 
-    return {
+    return createSuccess({
       accuracy: current.accuracy,
       currency: current.currency,
-      amount: (
-        BigInt(current.amount) -
-        BigInt(diff.amount) * BigInt(10 ** accuracyDiff)
-      ).toString(),
-    };
+      amount: amount.toString(),
+    });
   }
 
   const accuracyDiff = diff.accuracy - current.accuracy;
@@ -27,15 +29,12 @@ export function minus(current: Money, diff: Money): Money {
     BigInt(current.amount) * BigInt(10 ** accuracyDiff) - BigInt(diff.amount);
 
   if (amount < 0) {
-    throw new Error("Add error handling!!!");
+    return createError({ type: ERRORS.notEnoughtFunds });
   }
 
-  return {
+  return createSuccess({
     accuracy: diff.accuracy,
     currency: current.currency,
-    amount: (
-      BigInt(current.amount) * BigInt(10 ** accuracyDiff) -
-      BigInt(diff.amount)
-    ).toString(),
-  };
+    amount: amount.toString(),
+  });
 }

@@ -1,14 +1,17 @@
 import { v7 } from "uuid";
 
-import type { Currency, Money } from "../money";
+import { moneySchema, type Money } from "../money";
+import { z } from "zod";
 
-export type Account = {
-  id: string;
-  balance: Record<Currency, Money>;
-  defaultCurrency: Currency;
-  name: string;
-  userId: string;
-};
+export const accountSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  userId: z.string(),
+  defaultCurrency: z.string(),
+  balance: z.record(moneySchema),
+});
+
+export type Account = z.infer<typeof accountSchema>;
 
 export function createAccount({
   name,
@@ -17,7 +20,7 @@ export function createAccount({
 }: {
   name: string;
   userId: string;
-  defaultCurrency: Currency;
+  defaultCurrency: string;
 }): Account {
   const balance = {
     [defaultCurrency]: {
@@ -25,7 +28,7 @@ export function createAccount({
       currency: defaultCurrency,
       accuracy: 0,
     },
-  } as unknown as Record<Currency, Money>;
+  };
 
   return {
     id: v7(),

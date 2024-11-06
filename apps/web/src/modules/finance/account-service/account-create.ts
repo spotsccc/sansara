@@ -1,11 +1,7 @@
 import { saveAccount } from '@/shared/database/accounts-repository'
-import {
-  type Currency,
-  createAccount as createAccountModel,
-  type Account
-} from '@repo/models/finance'
+import { createAccount as createAccountModel, type Account } from '@repo/models/finance'
 import { createError, createSuccess, isError, type Result } from '@repo/result'
-import { addUnsyncItem } from '@/shared/sync'
+import { addUnsyncItem } from '@/modules/sync'
 import type { AccountSaveOutput } from '@repo/contracts/finance'
 import { api } from '@/infrastructure/api'
 
@@ -21,7 +17,7 @@ type CreateAccountOutput = Result<
 export async function createAccount(accountDraft: {
   name: string
   userId: string
-  defaultCurrency: Currency
+  defaultCurrency: string
 }): Promise<CreateAccountOutput> {
   const account = createAccountModel(accountDraft)
 

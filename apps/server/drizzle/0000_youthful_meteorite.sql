@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS "categories" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "transactions" (
+	"id" uuid PRIMARY KEY NOT NULL,
 	"user_id" uuid NOT NULL,
 	"account_id" uuid NOT NULL,
 	"type" varchar(64) NOT NULL,
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 	"description" varchar(512),
 	"create_at" timestamp with time zone NOT NULL,
 	"category_id" uuid,
+	"receiverId" uuid,
 	"receive_amount" numeric(32, 0),
 	"receive_accuracy" integer,
 	"receive_currency" varchar(32)
@@ -80,7 +82,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "transactions" ADD CONSTRAINT "transactions_category_id_accounts_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."accounts"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "transactions" ADD CONSTRAINT "transactions_receiverId_accounts_id_fk" FOREIGN KEY ("receiverId") REFERENCES "public"."accounts"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

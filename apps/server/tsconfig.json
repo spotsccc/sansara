@@ -23,7 +23,11 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+
+    "pretty": true,
+    "diagnostics": true,
+    "noErrorTruncation": true
   },
   "exclude": ["node_modules", "dist"]
 }

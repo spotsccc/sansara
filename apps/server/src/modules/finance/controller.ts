@@ -7,8 +7,18 @@ import { getAccountById } from "./repository/account/get-account-by-id";
 import { accountSave } from "./services/account-save";
 import { applyTransactionService } from "./services/transaction-applier";
 import { createError, createSuccess, isError } from "@repo/result";
-import { accountSaveInput } from "@repo/contracts/finance";
-import type { Transaction, Account } from "@repo/models/finance";
+import {
+  accountSaveInput,
+  categorySaveSchema,
+  transactionSaveInput,
+} from "@repo/contracts/finance";
+import {
+  type Transaction,
+  type Account,
+  applyTransaction,
+  transactionSchema,
+} from "@repo/models/finance";
+import { saveCategory } from "./repository/category/save-category";
 
 const TransactionBase = z.object({
   amount: z.string(),
@@ -118,7 +128,65 @@ export const financeController = new Hono()
       const input = c.req.valid("json");
       const user = await getUser(c);
 
-      const res = await accountSave(input as Account, user);
+      const res = await accountSave(input, user);
+
+      return c.json(res);
+    },
+  )
+  .post(
+    "/transactions",
+    validator("json", (input, c) => {
+      const i = transactionSaveInput.safeParse(input);
+      if (!i.success) {
+        return c.json(
+          createError({
+            type: "validation-error",
+            errors: i.error.flatten(),
+          }),
+        );
+      }
+      return i.data;
+    }),
+    async (c, next) => {
+      const authRes = await authGuard(c);
+      if (isError(authRes)) {
+        return c.json(createError({ type: "unauthorized" }));
+      }
+      return await next();
+    },
+    async (c) => {
+      const input = c.req.valid("json");
+
+      const res = await applyTransactionService(input);
+
+      return c.json(res);
+    },
+  )
+  .post(
+    "/categories",
+    validator("json", (input, c) => {
+      const i = categorySaveSchema.safeParse(input);
+      if (!i.success) {
+        return c.json(
+          createError({
+            type: "validation-error",
+            errors: i.error.flatten(),
+          }),
+        );
+      }
+      return i.data;
+    }),
+    async (c, next) => {
+      const authRes = await authGuard(c);
+      if (isError(authRes)) {
+        return c.json(createError({ type: "unauthorized" }));
+      }
+      return await next();
+    },
+    async (c) => {
+      const input = c.req.valid("json");
+
+      const res = await saveCategory(input);
 
       return c.json(res);
     },

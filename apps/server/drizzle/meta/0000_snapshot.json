@@ -1,5 +1,5 @@
 {
-  "id": "2ba84d58-95f0-497a-a7ad-2d89c658c3cf",
+  "id": "dfd947a6-dc2d-4313-9c8c-22e23642f787",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -153,6 +153,12 @@
       "name": "transactions",
       "schema": "",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
         "user_id": {
           "name": "user_id",
           "type": "uuid",
@@ -203,6 +209,12 @@
         },
         "category_id": {
           "name": "category_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "receiverId": {
+          "name": "receiverId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": false
@@ -267,12 +279,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "transactions_category_id_accounts_id_fk": {
-          "name": "transactions_category_id_accounts_id_fk",
+        "transactions_receiverId_accounts_id_fk": {
+          "name": "transactions_receiverId_accounts_id_fk",
           "tableFrom": "transactions",
           "tableTo": "accounts",
           "columnsFrom": [
-            "category_id"
+            "receiverId"
           ],
           "columnsTo": [
             "id"

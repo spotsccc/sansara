@@ -12,7 +12,7 @@ import { categories } from "./categories";
 import { users } from "~/modules/user/schemas/users";
 
 export const transactions = pgTable("transactions", {
-  id: uuid("user_id").primaryKey(),
+  id: uuid("id").primaryKey(),
   userId: uuid("user_id")
     .references(() => users.id)
     .notNull(),
@@ -29,7 +29,7 @@ export const transactions = pgTable("transactions", {
 
   categoryId: uuid("category_id").references(() => categories.id),
 
-  receiverId: uuid("category_id").references(() => accounts.id),
+  receiverId: uuid("receiverId").references(() => accounts.id),
   receiveAmount: decimal("receive_amount", { precision: 32, scale: 0 }),
   receiveAccuracy: integer("receive_accuracy"),
   receiveCurrency: varchar("receive_currency", { length: 32 }),

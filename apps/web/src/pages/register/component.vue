@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { api } from '@/infrastructure/api'
-import { useUserStore } from '@/shared/auth'
+import { AuthService, useUserStore } from '@/modules/auth'
 import { getValidationError } from '@/shared/lib/get-validation-error'
 import { Input } from '@/shared/ui/input'
 import { VStack } from '@/shared/ui/stack'
@@ -41,12 +41,14 @@ watch(repeatPassword, () => {
 })
 
 async function register() {
-  const res = await api.register.request({
+  loading.value = true
+  const res = await AuthService.register({
     username: username.value,
     email: email.value,
     repeatPassword: repeatPassword.value,
     password: password.value
   })
+  loading.value = false
 
   if (isError(res)) {
     const error = res.error
@@ -72,15 +74,15 @@ async function register() {
     }
   }
 
-  userStore.userLoaded(res.success.user)
   router.push('/')
 }
 </script>
 
 <template>
-  <VStack is="form" justify="center" align="center" p="md" h="100dvh" gap="xl">
-    <h1 class="title">Register new account</h1>
+  <VStack data-testid="root" justify="center" align="center" p="md" h="100dvh" gap="xl">
+    <h1 data-testid="title" class="title">Register new account</h1>
     <VStack
+      data-testid="register-form"
       is="form"
       @submit.prevent="register"
       w="100%"
@@ -90,6 +92,7 @@ async function register() {
       justify="space-between"
     >
       <Input
+        testId="email"
         v-model="email"
         label="Email"
         placeholder="Enter email"
@@ -97,6 +100,7 @@ async function register() {
         type="email"
       />
       <Input
+        testId="username"
         type="text"
         v-model="username"
         label="Username"
@@ -104,6 +108,7 @@ async function register() {
         :error="usernameError"
       />
       <Input
+        testId="password"
         type="password"
         v-model="password"
         label="Password"
@@ -111,6 +116,7 @@ async function register() {
         :error="repeatPasswordError"
       />
       <Input
+        testId="repeat-password"
         type="password"
         v-model="repeatPassword"
         label="Repeat password"
@@ -118,9 +124,11 @@ async function register() {
         :error="repeatPasswordError"
       />
 
-      <Button type="submit" :loading>Register</Button>
+      <Button data-testid="submit-button" type="submit" :loading>Register</Button>
     </VStack>
-    <RouterLink class="link" to="/auth/login">Already have an account?</RouterLink>
+    <RouterLink data-testid="already-have-account-link" class="link" to="/auth/login">
+      Already have an account?
+    </RouterLink>
   </VStack>
 </template>
 

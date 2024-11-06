@@ -9,7 +9,13 @@ defineOptions({
 const inputRef = useTemplateRef('input')
 
 defineExpose({ inputRef })
-defineProps<{ label?: string; error?: string; placeholder?: string; type?: string }>()
+defineProps<{
+  label?: string
+  error?: string
+  placeholder?: string
+  type?: string
+  testId?: string
+}>()
 
 const [model, modifiers] = defineModel<string>({
   set(value) {
@@ -22,10 +28,10 @@ const [model, modifiers] = defineModel<string>({
 </script>
 
 <template>
-  <div class="inputContainer">
-    <label class="label" v-show="!!label" for="label">{{ label }}</label>
-    <InputText ref="input" v-bind="$attrs" :placeholder v-model="model" :type />
-    <span class="errorLabel" v-show="!!error" id="label">{{ error }}</span>
+  <div class="inputContainer" :data-testid="testId">
+    <label data-testid="label" class="label" v-show="!!label" for="label">{{ label }}</label>
+    <InputText ref="input" data-testid="input" v-bind="$attrs" :placeholder v-model="model" :type />
+    <span data-testid="error" class="errorLabel" v-show="!!error" id="label">{{ error }}</span>
   </div>
 </template>
 

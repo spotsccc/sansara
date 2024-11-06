@@ -1,42 +1,54 @@
 import { v7 } from "uuid";
 
-import { type Currency, type Money } from "../money/money";
+import { moneySchema, type Money } from "../money/money";
+import { z } from "zod";
+
+export const transactionBaseSchema = z.object({
+  description: z.string().optional(),
+  amount: moneySchema,
+  accountId: z.string(),
+  userId: z.string(),
+  id: z.string(),
+  createdAt: z.string(),
+});
+
+export const transactionIncomeSchema = transactionBaseSchema.extend({
+  type: z.literal("income"),
+});
+
+export const transactionExpenseSchema = transactionBaseSchema.extend({
+  type: z.literal("expense"),
+  categoryId: z.string(),
+});
+
+export const transactionTransferSchema = transactionBaseSchema.extend({
+  type: z.literal("transfer"),
+  receiveAmount: moneySchema,
+  receiverId: z.string(),
+});
+
+export const transactionSchema = z.discriminatedUnion("type", [
+  transactionTransferSchema,
+  transactionExpenseSchema,
+  transactionIncomeSchema,
+]);
 
 export type TransactionType = "income" | "transfer" | "expense";
 
-export type TransactionBase = {
-  id: string;
-  userId: string;
-  accountId: string;
-  createdAt: Date;
-  amount: Money;
-  description: string | null;
-};
+export type TransactionBase = z.infer<typeof transactionBaseSchema>;
 
-export type TransactionIncome = {
-  type: "income";
-} & TransactionBase;
+export type TransactionIncome = z.infer<typeof transactionIncomeSchema>;
 
-export type TransactionExpense = {
-  type: "expense";
-  category: string;
-} & TransactionBase;
+export type TransactionExpense = z.infer<typeof transactionExpenseSchema>;
 
-export type TransactionTransfer = {
-  type: "transfer";
-  receiverId: string;
-  receiveAmount: Money;
-} & TransactionBase;
+export type TransactionTransfer = z.infer<typeof transactionTransferSchema>;
 
-export type Transaction =
-  | TransactionIncome
-  | TransactionExpense
-  | TransactionTransfer;
+export type Transaction = z.infer<typeof transactionSchema>;
 
 export type TransactionBaseInput = {
   accountId: string;
   amount: string;
-  currency: Currency;
+  currency: string;
   description?: string;
   userId: string;
 };
@@ -54,7 +66,7 @@ export type TransactionTransferInput = TransactionBaseInput & {
   type: "transfer";
   receiverId: string;
   receiveAmount: string;
-  receiveCurrency: Currency;
+  receiveCurrency: string;
 };
 
 export type TransactionInput =
@@ -65,9 +77,9 @@ export type TransactionInput =
 export function createTransaction(tx: TransactionInput): Transaction {
   const baseTransaction: TransactionBase = {
     amount: { ...formatAmount(tx.amount), currency: tx.currency },
-    description: tx.description ?? null,
+    description: tx.description,
     id: v7(),
-    createdAt: new Date(),
+    createdAt: new Date().toISOString(),
     accountId: tx.accountId,
     userId: tx.userId,
   };
@@ -82,7 +94,7 @@ export function createTransaction(tx: TransactionInput): Transaction {
       return {
         ...baseTransaction,
         type: "expense",
-        category: tx.categoryId,
+        categoryId: tx.categoryId,
       };
     case "transfer":
       return {

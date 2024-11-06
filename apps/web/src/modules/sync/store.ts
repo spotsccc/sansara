@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getAccount } from '../database/accounts-repository'
+import { getAccount } from '../../shared/database/accounts-repository'
 import { UPDATE_SYNC_QUEUE_EVENT, getQueue, saveQueue, type Item } from './add-item'
 import { api } from '@/infrastructure/api'
 

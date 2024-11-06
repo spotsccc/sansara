@@ -2,16 +2,12 @@ import { useRouteQuery } from '@vueuse/router'
 import { firstStep, nextStep, previosStep, stepIndex, type Step } from './step'
 import { computed, inject, onBeforeMount, provide, ref, type InjectionKey } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  type Account,
-  type Category,
-  type Currency,
-  type TransactionType
-} from '@repo/models/finance'
+import { type Account, type Category, type TransactionType } from '@repo/models/finance'
 import { getAccounts } from '@/shared/database/accounts-repository'
-import { getCategories } from '@/shared/database/categories-repository'
-import { createCategoryService, createTransactionService } from './service'
 import { isError } from '@repo/result'
+import { createCategoryService, createTransactionService } from '../services/transaction'
+import { useToast } from 'primevue/usetoast'
+import { CategoriesRepository } from '@/shared/database/categories-repository'
 
 const transactionCreateModelKey: InjectionKey<ReturnType<typeof useProvideCreateTransactionModel>> =
   Symbol('transactionCreateModel')
@@ -19,6 +15,7 @@ const transactionCreateModelKey: InjectionKey<ReturnType<typeof useProvideCreate
 export function useProvideCreateTransactionModel() {
   const router = useRouter()
   const route = useRoute()
+  const toast = useToast()
 
   const accounts = ref<Array<Account>>([])
   const account = computed(() =>
@@ -37,7 +34,7 @@ export function useProvideCreateTransactionModel() {
   onBeforeMount(async () => {
     loading.value = true
 
-    categories.value = await getCategories()
+    categories.value = await CategoriesRepository.getCategories()
     accounts.value = await getAccounts()
 
     loading.value = false
@@ -49,10 +46,10 @@ export function useProvideCreateTransactionModel() {
 
   const type = useRouteQuery<TransactionType>('type', 'income')
   const step = useRouteQuery<Step>('step', firstStep(type.value))
-  const currency = useRouteQuery<Currency>('currency')
+  const currency = useRouteQuery<string>('currency', '')
   const amount = useRouteQuery<string>('amount', '')
 
-  function currencySelectHandler(c: Currency) {
+  function currencySelectHandler(c: string) {
     currency.value = c
     step.value = nextStep(step.value, type.value)
   }
@@ -82,8 +79,7 @@ export function useProvideCreateTransactionModel() {
       throw new Error('Implement error hadnling!!!')
     }
 
-    // todo: Add error handling
-    categories.value = await getCategories()
+    categories.value = await CategoriesRepository.getCategories()
 
     newCategoryCreating.value = false
     categorySelectHander(createCategoryResult.success.category.id)
@@ -97,8 +93,8 @@ export function useProvideCreateTransactionModel() {
   /**
    * Transfer transaction fields
    */
-  const receiverId = useRouteQuery('receiver_id')
-  const receiverCurrency = useRouteQuery<Currency>('receiver_currency')
+  const receiverId = useRouteQuery<string>('receiver_id')
+  const receiverCurrency = useRouteQuery<string>('receiver_currency')
   const receiverAmount = useRouteQuery<string>('receiver_amount', '')
   const receiver = computed(() => accounts.value.find((a) => a.id === receiverId.value))
 
@@ -110,7 +106,7 @@ export function useProvideCreateTransactionModel() {
     step.value = nextStep(step.value, type.value)
   }
 
-  function receiverCurrencySelectHandler(c: Currency) {
+  function receiverCurrencySelectHandler(c: string) {
     receiverCurrency.value = c
     step.value = nextStep(step.value, type.value)
   }
@@ -123,24 +119,38 @@ export function useProvideCreateTransactionModel() {
   async function createTransactionHandler() {
     creating.value = true
 
-    // todo: Add error handling
     const result = await createTransactionService({
       amount: amount.value,
       type: type.value,
       currency: currency.value,
       accountId: account.value!.id,
-      //@ts-ignore
       categoryId: categoryId.value,
       receiverId: receiverId.value,
       receiveCurrency: receiverCurrency.value,
       receiveAmount: receiverAmount.value
     })
 
+    creating.value = false
+
     if (isError(result)) {
-      console.log(result.error)
+      const error = result.error
+
+      switch (error.type) {
+        case 'local-acccount-not-found':
+        case 'local-receiver-not-found':
+        case 'local-unauthorized':
+        case 'local-save-error':
+        case 'not-enought-funds':
+          toast.add({ severity: 'error', summary: 'Error while creating transaction' })
+          return
+
+        case 'remote-account-not-found':
+        case 'remote-receiver-not-found':
+        case 'remote':
+          toast.add({ severity: 'error', summary: 'Error while saving transaction to server' })
+      }
     }
 
-    creating.value = false
     router.push(backUrl.value)
   }
 

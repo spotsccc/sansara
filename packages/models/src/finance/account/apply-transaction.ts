@@ -7,14 +7,13 @@ import type {
   TransactionExpense,
   TransactionTransfer,
 } from "../transaction";
-import { type Result, createError, createSuccess } from "@repo/result";
+import { type Result, createError, createSuccess, isError } from "@repo/result";
 
-export type ApplyTransactionErrors = "Account has not enought funds";
+export const ERRORS = {
+  notEnoughtFunds: "not-enought-funds" as const,
+};
 
-export function applyTransaction(
-  account: Account,
-  transaction: Transaction,
-): Result<Account, { type: ApplyTransactionErrors }> {
+export function applyTransaction(account: Account, transaction: Transaction) {
   switch (transaction.type) {
     case "income":
       return createSuccess(applyTransactionIncome(account, transaction));
@@ -43,28 +42,36 @@ export function applyTransactionIncome(
 export function applyTransactionExpense(
   account: Account,
   transaction: TransactionExpense,
-): Result<Account, { type: ApplyTransactionErrors }> {
+) {
   const current = account.balance[transaction.amount.currency];
 
   if (!current) {
-    return createError({ type: "Account has not enought funds" });
+    return createError({ type: ERRORS.notEnoughtFunds });
   }
 
   const updatedCurrent = minus(current, transaction.amount);
 
-  return createSuccess(updateBalance(account, updatedCurrent));
+  if (isError(updatedCurrent)) {
+    return updatedCurrent;
+  }
+
+  return createSuccess(updateBalance(account, updatedCurrent.success));
 }
 
 export function applyTransactionTransfer(
   account: Account,
   transaction: TransactionTransfer,
-): Result<Account, { type: ApplyTransactionErrors }> {
+) {
   if (account.id === transaction.accountId) {
-    let current = account.balance[transaction.amount.currency];
+    const current = account.balance[transaction.amount.currency];
 
-    current = minus(current, transaction.amount);
+    const updatedCurrent = minus(current, transaction.amount);
 
-    return createSuccess(updateBalance(account, current));
+    if (isError(updatedCurrent)) {
+      return updatedCurrent;
+    }
+
+    return createSuccess(updateBalance(account, updatedCurrent.success));
   }
 
   let current = account.balance[transaction.receiveAmount.currency];

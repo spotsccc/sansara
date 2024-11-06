@@ -13,7 +13,13 @@ defineEmits<{ (e: 'stepBack'): void }>()
 </script>
 
 <template>
-  <VGroup is="header" w="100%" justify="space-between" align="center">
+  <VGroup
+    data-testid="multistep-header"
+    is="header"
+    w="100%"
+    justify="space-between"
+    align="center"
+  >
     <button :class="$style.unstyledButton" @click="$emit('stepBack')">
       <i
         v-show="!hideStepBack"

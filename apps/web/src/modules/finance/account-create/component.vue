@@ -27,7 +27,7 @@ const title = computed(() => titleMap[step.value])
 </script>
 
 <template>
-  <VStack p="md" h="100dvh" gap="md">
+  <VStack data-testid="root" p="md" h="100dvh" gap="md">
     <MultiStepHeader
       :title="title"
       :backUrl="backUrl ?? '/'"

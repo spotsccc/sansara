@@ -1,6 +1,6 @@
 import { api } from '@/infrastructure/api'
+import { saveMutation } from '@/shared/database/accounts-repository'
 import { isError } from '@repo/result'
-import { loadDatabase } from '../database/load-database'
 
 export const LAST_SYNC_DATE_KEY = 'LAST_SYNC_DATE_KEY'
 
@@ -24,6 +24,6 @@ export function startUpdateTicker() {
 
     saveLastSyncDate(new Date())
 
-    loadDatabase({ accounts: updatesResult.success.accounts })
+    await saveMutation(updatesResult.success.accounts, 'accounts')
   }, 10000)
 }
