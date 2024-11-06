@@ -4,7 +4,7 @@
   "scripts": {
     "prod": "node dist/bundle.js",
     "build": "rollup -c",
-    "dev": "docker-compose up -d && tsx watch src/index.ts",
+    "dev": "tsx watch src/index.ts",
     "generate-migrations": "drizzle-kit generate"
   },
   "exports": {
