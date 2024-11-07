@@ -4,6 +4,7 @@
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test --ui",
+    "test:e2e": "start-server-and-test \"(cd ../web && npm run dev)\" http://localhost:5173 \"(cd ../server && npm run dev)\" http://localhost:8080  \"playwright test\"",
     "show-report": "playwright show-report"
   },
   "keywords": [],
@@ -11,7 +12,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/node": "^22.8.1"
+    "@types/node": "^22.8.1",
+    "start-server-and-test": "^2.0.8"
   },
   "dependencies": {
     "@faker-js/faker": "^9.1.0",

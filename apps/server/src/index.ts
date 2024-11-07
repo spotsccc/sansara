@@ -23,7 +23,8 @@ const app = new Hono()
   )
   .route("auth", authController)
   .route("finance", financeController)
-  .route("sync", syncController);
+  .route("sync", syncController)
+  .get("/", (c) => c.text("ok"));
 
 export type AppType = typeof app;
 

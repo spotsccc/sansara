@@ -34,9 +34,5 @@ jobs:
       - name: Install dependecies
         run: npm ci
 
-      - name: Run services
-        run: npm run dev
-
       - name: Run E2E tests
-        working-directory: apps/E2E
-        run: npm run test
+        run: npm run test:e2e
