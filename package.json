@@ -8,7 +8,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "test:e2e": "turbo test:e2e",
+    "test:ci": "turbo test:ci",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {

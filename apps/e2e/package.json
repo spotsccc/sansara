@@ -4,7 +4,9 @@
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test --ui",
+    "prepare": "npx playwright install",
     "test:e2e": "start-server-and-test \"(cd ../web && npm run dev)\" http://localhost:5173 \"(cd ../server && npm run dev)\" http://localhost:8080  \"playwright test\"",
+    "test:ci": "npm run prepare && npm run test:ci",
     "show-report": "playwright show-report"
   },
   "keywords": [],
